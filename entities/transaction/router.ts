@@ -4,8 +4,8 @@ import { updateTransaction, createTransaction, validateTransaction } from './con
 
 const router = express.Router();
 
-router.post('/', generator(createTransaction, ['body', 'req.token']));
-router.patch('/:id/validation', admin, generator(validateTransaction, ['params.id', 'body', 'req.token']));
-router.patch('/:id/approval', generator(updateTransaction, ['params.id', 'body', 'req.token']));
+router.post('/', generator(createTransaction, ['body', 'token']));
+router.patch('/:id/validation', admin, generator(validateTransaction, ['params.id', 'body', 'token']));
+router.patch('/:id/approval', generator(updateTransaction, ['params.id', 'body', 'token']));
 
 export default router;

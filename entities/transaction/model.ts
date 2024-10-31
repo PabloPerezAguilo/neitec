@@ -16,7 +16,7 @@ const schema = new mongoose.Schema({
     },
     status: {
         type: String,
-        required: true,
+        default: TransactionStatus.Pending,
         enum: Object.values(TransactionStatus),
     },
     createdBy: {

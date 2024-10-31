@@ -9,7 +9,7 @@ export const startExpress = () => {
     const app = express();
 
     app.use(express.json());
-    app.get('/', (req, res) => res.send('Healthcheck: ok'))
+    app.get('/', (req, res) => res.json({status: 'ok'}))
     app.use('/user', userRouter)
     // Requiere autenticacion para todos los endpoints
     app.use('/transaction', auth, transactionRouter)
