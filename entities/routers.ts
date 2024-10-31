@@ -18,4 +18,5 @@ export const startExpress = () => {
 
 
     app.listen(CONF.PORT,()=>console.log('Server up at port ' + CONF.PORT));
+    return app;
 }
