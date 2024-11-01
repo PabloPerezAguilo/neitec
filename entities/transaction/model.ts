@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import { ulid } from 'ulid';
 
 export enum TransactionStatus {
-    Pending = 'Pending',
+    Pending = 'pending',
     Approved = 'approved',
     Rejected = 'rejected',
     Done = 'done',

@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post('/', generator(createTransaction, ['body', 'token']));
 router.patch('/:id/validation', admin, generator(validateTransaction, ['params.id', 'body', 'token']));
-router.patch('/:id/approval', generator(updateTransaction, ['params.id', 'body', 'token']));
+router.patch('/:id/approval', generator(updateTransaction, ['params.id', 'token']));
 
 export default router;
