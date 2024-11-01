@@ -36,12 +36,18 @@ describe('Test User', () => {
 
 
 describe('Test Transactions', () => {
-    const basePath = '/transaction'
-    test('Create transaction', async () => {
+    const basePath = '/transaction';
+    let res;
+    let userToken;
+    let adminToken;
+    beforeAll(async () => {
         let res = await request(server).post('/user/login').send({ "email": "user@yo.es", "password": "123456" }).expect(200);
-        const userToken = res.body.token;
+        userToken = res.body.token;
         res = await request(server).post('/user/login').send({ "email": "admin@yo.es", "password": "123456" }).expect(200);
-        const adminToken = res.body.token;
+        adminToken = res.body.token;
+    })
+
+    test('Create transaction', async () => {
         res = await request(server).post(`${basePath}/`).set("Authorization", `Bearer ${userToken}`).send({ "name": "TRX1" }).expect(200);
         expect(res.body._id).toBeDefined()
         expect(res.body.name).toBe('TRX1')
@@ -51,24 +57,26 @@ describe('Test Transactions', () => {
         expect(res.body.status).toBe(TransactionStatus.Approved)
     })
 
+    test('Create transaction and reject it', async () => {
+        res = await request(server).post(`${basePath}/`).set("Authorization", `Bearer ${userToken}`).send({ "name": "TRX2" }).expect(200);
+        const trx = res.body;
+        res = await request(server).patch(`${basePath}/${trx._id}/validation`).set("Authorization", `Bearer ${adminToken}`).send({ "status": TransactionStatus.Rejected }).expect(200);
+        expect(res.body.status).toBe(TransactionStatus.Rejected)
+    })
+
     test('Create transaction without auth', async () => {
         const res = await request(server).post(`${basePath}/`).send({ "name": "TRX4" }).expect(401);
         expect(res.body.code).toBe('Unauthorized')
     })
 
     test('Try to create an approved transaction', async () => {
-        let res = await request(server).post('/user/login').send({ "email": "user@yo.es", "password": "123456" }).expect(200);
-        const token = res.body.token;
-        res = await request(server).post(`${basePath}/`).set("Authorization", `Bearer ${token}`).send({ "name": "TRX2", "status": TransactionStatus.Approved }).expect(200);
-        console.log(res.body)
+        res = await request(server).post(`${basePath}/`).set("Authorization", `Bearer ${userToken}`).send({ "name": "TRX2", "status": TransactionStatus.Approved }).expect(200);
         expect(res.body._id).toBeDefined()
         expect(res.body.name).toBe('TRX2')
         expect(res.body.status).toBe(TransactionStatus.Pending)
     })
 
     test('Try to create and approve transaction without auth', async () => {
-        let res = await request(server).post('/user/login').send({ "email": "user@yo.es", "password": "123456" }).expect(200);
-        const userToken = res.body.token;
         res = await request(server).post(`${basePath}/`).set("Authorization", `Bearer ${userToken}`).send({ "name": "TRX3" }).expect(200);
         const trx = res.body;
         // Invocamos la validacion sin token debe fallar
@@ -77,8 +85,6 @@ describe('Test Transactions', () => {
     })
 
     test('Try to create and self approve transaction', async () => {
-        let res = await request(server).post('/user/login').send({ "email": "user@yo.es", "password": "123456" }).expect(200);
-        const userToken = res.body.token;
         res = await request(server).post(`${basePath}/`).set("Authorization", `Bearer ${userToken}`).send({ "name": "TRX3" }).expect(200);
         const trx = res.body;
         // Invocamos la validacion con token de usuario y debe fallar
@@ -87,10 +93,6 @@ describe('Test Transactions', () => {
     })
 
     test('Create transaction and approve with invalid value', async () => {
-        let res = await request(server).post('/user/login').send({ "email": "user@yo.es", "password": "123456" }).expect(200);
-        const userToken = res.body.token;
-        res = await request(server).post('/user/login').send({ "email": "admin@yo.es", "password": "123456" }).expect(200);
-        const adminToken = res.body.token;
         res = await request(server).post(`${basePath}/`).set("Authorization", `Bearer ${userToken}`).send({ "name": "TRX1" }).expect(200);
         expect(res.body._id).toBeDefined()
         expect(res.body.name).toBe('TRX1')
