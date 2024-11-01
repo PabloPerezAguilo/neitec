@@ -1,0 +1,153 @@
+{
+	"info": {
+		"_postman_id": "80ca2d35-1ab6-4999-a77e-6648fea47efb",
+		"name": "Neitec",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19116595"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"email\": \"user@yo.es\", \"password\": \"123456\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/user/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create transaction",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxSkJIMERBODhWUEdDQUMwVFFFR1JGNVAyIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MzA0NjUwNTcsImV4cCI6MTczMDU1MTQ1N30.WCPbnnKxRKxdjS1P0NABfrrc5x3oXHOTVqvA2wIOPxg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"transaccion1\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/transaction",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"transaction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate transaction",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxSkJIMERBOFBGQUdBQ0ZKVDE4NEcyRk02Iiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzMwNDQ5NzAyLCJleHAiOjE3MzA1MzYxMDJ9.KiDEkL8BBRyrIDFiniLwLVjEKz9z7VDbirT-hwEi7RM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"status\": \"approved\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/transaction/01JBKD73N643H3CRR9EBK5X53V/validation",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"transaction",
+						"01JBKD73N643H3CRR9EBK5X53V",
+						"validation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Approval transaction",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxSkJIMERBOFBGQUdBQ0ZKVDE4NEcyRk02Iiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzMwNDQ5NzAyLCJleHAiOjE3MzA1MzYxMDJ9.KiDEkL8BBRyrIDFiniLwLVjEKz9z7VDbirT-hwEi7RM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"status\": \"approved\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/transaction/01JBKD73N643H3CRR9EBK5X53V/approval",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"transaction",
+						"01JBKD73N643H3CRR9EBK5X53V",
+						"approval"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
